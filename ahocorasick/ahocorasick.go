@@ -14,7 +14,7 @@ type node struct {
 func New(keywords []string) *AhoCorasick {
 	a := AhoCorasick{root: newNode(0)}
 	a.createTrie(keywords)
-	a.createNext()
+	a.createBackward()
 	return &a
 }
 
@@ -39,16 +39,16 @@ func (a *AhoCorasick) createTrie(keywords []string) {
 	}
 }
 
-func (a *AhoCorasick) createNext() {
+func (a *AhoCorasick) createBackward() {
 	for k, v := range a.root.children {
-		a.walkCreateNext(v, []rune{k})
+		a.walkCreateBackward(v, []rune{k})
 	}
 }
 
-func (a *AhoCorasick) walkCreateNext(n *node, text []rune) {
+func (a *AhoCorasick) walkCreateBackward(n *node, text []rune) {
 	n.backward = a.backwardMatchNode(text)
 	for k, v := range n.children {
-		a.walkCreateNext(v, append(text, k))
+		a.walkCreateBackward(v, append(text, k))
 	}
 }
 
