@@ -40,15 +40,15 @@ func (a *AhoCorasick) createTrie(keywords []string) {
 }
 
 func (a *AhoCorasick) createNext() {
-	a.root.next = a.root
-	a.walkCreateNext(a.root.children, make([]rune, 0))
+	for k, v := range a.root.children {
+		a.walkCreateNext(v, []rune{k})
+	}
 }
 
-func (a *AhoCorasick) walkCreateNext(nodes map[rune]*node, text []rune) {
-	for k, n := range nodes {
-		text = append(text, k)
-		n.next = a.backwardMatchNode(text)
-		a.walkCreateNext(n.children, text)
+func (a *AhoCorasick) walkCreateNext(n *node, text []rune) {
+	n.next = a.backwardMatchNode(text)
+	for k, v := range n.children {
+		a.walkCreateNext(v, append(text, k))
 	}
 }
 
@@ -77,20 +77,23 @@ func (a *AhoCorasick) matchNode(text []rune) (*node, bool) {
 
 func (a *AhoCorasick) Match(text string) [][]int {
 	result := make([][]int, 0)
+	runes := []rune(text)
 	n := a.root
-	pos := 0
-	for _, r := range text {
-		v, ok := n.children[r]
+
+	for i := 0; i < len(runes); {
+		if n.hit {
+			result = append(result, []int{i-n.depth, n.depth})
+		}
+		v, ok := n.children[runes[i]]
 		if ok {
 			n = v
-			if v.hit {
-				result = append(result, []int{pos - v.depth, v.depth})
-			}
-		} else {
+			i++
+		} else if n.next != nil {
 			n = n.next
+		} else {
+			i++
 		}
-
-		pos++
 	}
+
 	return result
 }
