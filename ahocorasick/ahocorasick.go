@@ -97,10 +97,10 @@ func (a *AhoCorasick) Match(text string) [][]int {
 			}
 			n = child
 			i++
-		} else if n != a.root {
-			n = n.backward
-		} else {
+		} else if n == a.root {
 			i++
+		} else {
+			n = n.backward
 		}
 	}
 
