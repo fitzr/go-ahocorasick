@@ -7,7 +7,7 @@ type AhoCorasick struct {
 type node struct {
 	children map[rune]*node
 	depth    int
-	next     *node
+	backward *node
 	hit      bool
 }
 
@@ -46,7 +46,7 @@ func (a *AhoCorasick) createNext() {
 }
 
 func (a *AhoCorasick) walkCreateNext(n *node, text []rune) {
-	n.next = a.backwardMatchNode(text)
+	n.backward = a.backwardMatchNode(text)
 	for k, v := range n.children {
 		a.walkCreateNext(v, append(text, k))
 	}
@@ -78,7 +78,8 @@ func (a *AhoCorasick) matchNode(text []rune) (*node, bool) {
 func (a *AhoCorasick) Match(text string) [][]int {
 	result := make([][]int, 0)
 	runes := []rune(text)
-	n := a.root
+	root := a.root
+	n := root
 
 	for i := 0; i < len(runes); {
 		if n.hit {
@@ -86,10 +87,16 @@ func (a *AhoCorasick) Match(text string) [][]int {
 		}
 		v, ok := n.children[runes[i]]
 		if ok {
+			for n != root {
+				n = n.backward
+				if n.hit {
+					result = append(result, []int{i-n.depth, n.depth})
+				}
+			}
 			n = v
 			i++
-		} else if n.next != nil {
-			n = n.next
+		} else if n != root {
+			n = n.backward
 		} else {
 			i++
 		}

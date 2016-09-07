@@ -33,6 +33,18 @@ func TestAhoCorasick_Match(t *testing.T) {
 	}
 }
 
+func TestAhoCorasick_MatchWithMiddleWord(t *testing.T) {
+	input := "sheeg"
+	keywords := []string{"shees", "he"}
+	expected := [][]int{{1, 2}} // he
+
+	sut := New(keywords)
+	actual := sut.Match(input)
+	if !reflect.DeepEqual(expected, actual) {
+		t.Errorf("\nexpected: %v\nactual: %v", expected, actual)
+	}
+}
+
 func TestAhoCorasick_MatchWithBigData(t *testing.T) {
 	input := "今日は天気がよかったので、近くの海まで愛犬のしなもんと一緒にお散歩。写真は海辺を楽しそうに歩くしなもん。そのあとついでにお買い物にも行ってきました。「はてなの本」を買ったので、はてなダイアリーの便利な商品紹介ツール「はまぞう」を使って紹介してみるよ。とてもおもしろいのでみんなも読んでみてね。"
 	keywords := getKeywords()
@@ -42,8 +54,9 @@ func TestAhoCorasick_MatchWithBigData(t *testing.T) {
 	actual := sut.Match(input)
 
 	matched := make([]string, len(actual))
+	runes := []rune(input)
 	for i, v := range actual {
-		matched[i] = input[v[0] : v[0]+v[1]]
+		matched[i] = string(runes[v[0] : v[0]+v[1]])
 	}
 	if !reflect.DeepEqual(expectMatched, matched) {
 		t.Errorf("\nexpected: %v\nactual: %v", expectMatched, matched)
