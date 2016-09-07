@@ -64,7 +64,10 @@ func TestAhoCorasick_MatchWithBigData(t *testing.T) {
 }
 
 func getKeywords() []string {
+	// http://image.gihyo.co.jp/assets/files/book/2010/978-4-7741-4307-1/hugedatabook_samplecode.zip
+	// hugedatabook_samplecode/hgdata_example/08/keyword.utf8.uniq.txt
 	fp, _ := os.Open("../data/keyword.utf8.uniq.txt")
+
 	defer fp.Close()
 	scanner := bufio.NewScanner(fp)
 	keywords := make([]string, 216263)
