@@ -14,10 +14,10 @@ import (
 
 func main() {
 
-    keywords := []string{"key", "word", "keyword", "sometime"}
+    keywords := []string{"key", "word", "keyword", "ーワー"}
     a := goahocorasick.New(keywords)
 
-    target := "keyword is something"
+    target := "keyword is キーワード"
     results := a.Match(target)
 
     for _, result := range results {
@@ -27,10 +27,11 @@ func main() {
 ~~~
 
 ~~~
-# [index, length]
-[0, 3] (key)
-[0, 7] (keyword)
-[3, 4] (word)
+# [index length]
+[0 3]  (key)
+[0 7]  (keyword)
+[3 4]  (word)
+[12 3] (ーワー)
 ~~~
 
 #### License
