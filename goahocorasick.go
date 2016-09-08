@@ -1,4 +1,4 @@
-package ahocorasick
+package goahocorasick
 
 type AhoCorasick struct {
 	root *node
