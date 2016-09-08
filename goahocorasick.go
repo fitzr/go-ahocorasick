@@ -7,14 +7,14 @@ type AhoCorasick struct {
 type node struct {
 	children map[rune]*node
 	depth    int
-	backward *node
+	fail     *node
 	hit      bool
 }
 
 func New(keywords []string) *AhoCorasick {
 	a := AhoCorasick{root: newNode(0)}
 	a.createTrie(keywords)
-	a.createBackward()
+	a.createFail()
 	return &a
 }
 
@@ -39,16 +39,16 @@ func (a *AhoCorasick) createTrie(keywords []string) {
 	}
 }
 
-func (a *AhoCorasick) createBackward() {
+func (a *AhoCorasick) createFail() {
 	for k, v := range a.root.children {
-		a.walkCreateBackward(v, []rune{k})
+		a.walkCreateFail(v, []rune{k})
 	}
 }
 
-func (a *AhoCorasick) walkCreateBackward(n *node, text []rune) {
-	n.backward = a.backwardMatchNode(text)
+func (a *AhoCorasick) walkCreateFail(n *node, text []rune) {
+	n.fail = a.backwardMatchNode(text)
 	for k, v := range n.children {
-		a.walkCreateBackward(v, append(text, k))
+		a.walkCreateFail(v, append(text, k))
 	}
 }
 
@@ -92,7 +92,7 @@ func (a *AhoCorasick) Match(text string) [][]int {
 		child, ok := n.children[runes[i]]
 		if ok {
 			for n != a.root {
-				n = n.backward
+				n = n.fail
 				check(n)
 			}
 			n = child
@@ -100,7 +100,7 @@ func (a *AhoCorasick) Match(text string) [][]int {
 		} else if n == a.root {
 			i++
 		} else {
-			n = n.backward
+			n = n.fail
 		}
 	}
 
