@@ -1,5 +1,6 @@
 package goahocorasick
 
+// AhoCorasick is executor.
 type AhoCorasick struct {
 	root *node
 }
@@ -11,6 +12,7 @@ type node struct {
 	hit      bool
 }
 
+// New executor with keywords.
 func New(keywords []string) *AhoCorasick {
 	a := AhoCorasick{root: newNode(0)}
 	a.createTrie(keywords)
@@ -75,6 +77,7 @@ func (a *AhoCorasick) matchNode(text []rune) (*node, bool) {
 	return n, true
 }
 
+// Match keywords and returns index and length.
 func (a *AhoCorasick) Match(text string) [][]int {
 	result := make([][]int, 0)
 	n := a.root
