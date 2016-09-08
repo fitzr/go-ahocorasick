@@ -18,7 +18,7 @@ func main() {
     a := goahocorasick.New(keywords)
 
     target := "keyword is something"
-    results := a.Match(target
+    results := a.Match(target)
 
     for _, result := range results {
         fmt.Println(result)
