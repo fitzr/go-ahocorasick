@@ -14,8 +14,8 @@ import (
 
 func main() {
 
-    keyword := []string{"key", "word", "keyword", "sometime"}
-    a := goahocorasick.New(keyword)
+    keywords := []string{"key", "word", "keyword", "sometime"}
+    a := goahocorasick.New(keywords)
 
     target := "keyword is something"
     results := a.Match(target
