@@ -76,24 +76,22 @@ func (a *AhoCorasick) matchNode(text []rune) (*node, bool) {
 }
 
 func (a *AhoCorasick) Match(text string) [][]int {
-	runes := []rune(text)
 	result := make([][]int, 0)
 	n := a.root
 	i := 0
 
-	check := func(node *node) {
-		if node.hit {
-			result = append(result, []int{i - node.depth, node.depth})
+	for _, r := range text {
+	L:
+		if n.hit {
+			result = append(result, []int{i - n.depth, n.depth})
 		}
-	}
-
-	for i < len(runes) {
-		check(n)
-		child, ok := n.children[runes[i]]
+		child, ok := n.children[r]
 		if ok {
 			for n != a.root {
 				n = n.fail
-				check(n)
+				if n.hit {
+					result = append(result, []int{i - n.depth, n.depth})
+				}
 			}
 			n = child
 			i++
@@ -101,6 +99,7 @@ func (a *AhoCorasick) Match(text string) [][]int {
 			i++
 		} else {
 			n = n.fail
+			goto L
 		}
 	}
 
