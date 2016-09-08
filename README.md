@@ -27,7 +27,7 @@ func main() {
 ~~~
 
 ~~~
-# return index and length by the utf8
+# return [index length] in units of utf8
 [0 3]  (key)
 [0 7]  (keyword)
 [3 4]  (word)
