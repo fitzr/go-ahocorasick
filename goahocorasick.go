@@ -77,7 +77,7 @@ func (a *AhoCorasick) matchNode(text []rune) (*node, bool) {
 	return n, true
 }
 
-// Match keywords and returns index and length.
+// Match keywords and returns index and length in units of rune(utf8).
 func (a *AhoCorasick) Match(text string) [][]int {
 	result := make([][]int, 0)
 	n := a.root

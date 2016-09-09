@@ -1,4 +1,4 @@
-ahocorasick
+go ahocorasick
 ===========
 [![Go Report Card](https://goreportcard.com/badge/github.com/fitzr/goahocorasick)](https://goreportcard.com/report/github.com/fitzr/goahocorasick)
 
@@ -33,6 +33,8 @@ func main() {
 [3 4]  (word)
 [12 3] (ーワー)
 ~~~
+
+[godoc](https://godoc.org/github.com/fitzr/goahocorasick)
 
 #### License
 MIT
