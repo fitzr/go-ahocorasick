@@ -1,7 +1,11 @@
 package goahocorasick
 
-// AhoCorasick is executor.
-type AhoCorasick struct {
+// AhoCorasick is the interface that wraps the Match method.
+type AhoCorasick interface {
+	Match(text string) [][]int
+}
+
+type ahocorasick struct {
 	root *node
 }
 
@@ -12,9 +16,9 @@ type node struct {
 	hit      bool
 }
 
-// New executor with keywords.
-func New(keywords []string) *AhoCorasick {
-	a := AhoCorasick{root: newNode(0)}
+// New returns new AhoCorasick with keywords.
+func New(keywords []string) AhoCorasick {
+	a := ahocorasick{root: newNode(0)}
 	a.createTrie(keywords)
 	a.createFail()
 	return &a
@@ -26,7 +30,7 @@ func newNode(depth int) *node {
 		depth:    depth}
 }
 
-func (a *AhoCorasick) createTrie(keywords []string) {
+func (a *ahocorasick) createTrie(keywords []string) {
 	for _, keyword := range keywords {
 		n := a.root
 		for _, r := range keyword {
@@ -41,20 +45,20 @@ func (a *AhoCorasick) createTrie(keywords []string) {
 	}
 }
 
-func (a *AhoCorasick) createFail() {
+func (a *ahocorasick) createFail() {
 	for k, v := range a.root.children {
 		a.walkCreateFail(v, []rune{k})
 	}
 }
 
-func (a *AhoCorasick) walkCreateFail(n *node, text []rune) {
+func (a *ahocorasick) walkCreateFail(n *node, text []rune) {
 	n.fail = a.backwardMatchNode(text)
 	for k, v := range n.children {
 		a.walkCreateFail(v, append(text, k))
 	}
 }
 
-func (a *AhoCorasick) backwardMatchNode(text []rune) *node {
+func (a *ahocorasick) backwardMatchNode(text []rune) *node {
 	for t := text[1:]; len(t) > 0; t = t[1:] {
 		n, ok := a.matchNode(t)
 		if ok {
@@ -64,7 +68,7 @@ func (a *AhoCorasick) backwardMatchNode(text []rune) *node {
 	return a.root
 }
 
-func (a *AhoCorasick) matchNode(text []rune) (*node, bool) {
+func (a *ahocorasick) matchNode(text []rune) (*node, bool) {
 	n := a.root
 	for _, r := range text {
 		v, ok := n.children[r]
@@ -77,8 +81,8 @@ func (a *AhoCorasick) matchNode(text []rune) (*node, bool) {
 	return n, true
 }
 
-// Match keywords and returns index and length in units of rune(utf8).
-func (a *AhoCorasick) Match(text string) [][]int {
+// Match keywords and returns index and length in units of rune (utf8).
+func (a *ahocorasick) Match(text string) [][]int {
 	var result [][]int
 	n := a.root
 	i := 0
