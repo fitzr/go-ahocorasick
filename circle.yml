@@ -1,3 +1,11 @@
 machine:
   timezone:
     Asia/Tokyo
+
+test:
+  pre:
+    - go get github.com/mattn/goveralls
+  override:
+    - go test -v -race
+  post:
+    - goveralls -v -service=circle-ci -repotoken $COVERALLS_TOKEN
