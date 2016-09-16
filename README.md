@@ -1,6 +1,6 @@
 go ahocorasick
 ===========
-[![Go Report Card](https://goreportcard.com/badge/github.com/fitzr/goahocorasick)](https://goreportcard.com/report/github.com/fitzr/goahocorasick) [![GoDoc](https://godoc.org/github.com/fitzr/goahocorasick?status.png)](https://godoc.org/github.com/fitzr/goahocorasick) [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/fitzr/goahocorasick/blob/master/LICENSE)
+[![Build Status](https://circleci.com/gh/fitzr/goahocorasick.svg?style=shield)](https://circleci.com/gh/fitzr/goahocorasick) [![Coverage Status](https://coveralls.io/repos/github/fitzr/goahocorasick/badge.svg?branch=master)](https://coveralls.io/github/fitzr/goahocorasick?branch=master) [![Go Report Card](https://goreportcard.com/badge/github.com/fitzr/goahocorasick)](https://goreportcard.com/report/github.com/fitzr/goahocorasick) [![GoDoc](https://godoc.org/github.com/fitzr/goahocorasick?status.png)](https://godoc.org/github.com/fitzr/goahocorasick) [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/fitzr/goahocorasick/blob/master/LICENSE)
 
 Aho-Corasick algorithm in golang.
 
