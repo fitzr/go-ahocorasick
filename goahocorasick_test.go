@@ -1,6 +1,7 @@
-package goahocorasick
+package goahocorasick_test
 
 import (
+	. "github.com/fitzr/goahocorasick"
 	"reflect"
 	"testing"
 )
