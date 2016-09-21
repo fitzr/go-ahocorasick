@@ -5,7 +5,7 @@ import (
 	"github.com/fitzr/goahocorasick"
 )
 
-func ExampleAhocorasick() {
+func ExampleAhoCorasick() {
 	keywords := []string{"key", "word", "keyword", "ーワー"}
 	a := goahocorasick.New(keywords)
 
